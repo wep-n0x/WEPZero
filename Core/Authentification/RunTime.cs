@@ -25,6 +25,7 @@
 
             /* Creating Listener Instance */
             Globals.GetInstance().ServerInstance = new Networking.WRServer("0.0.0.0", 5330);
+            Globals.GetInstance().ServerInstance.LoadPacketTable();
             Globals.GetInstance().ServerInstance.Initialize();
             Globals.GetInstance().ServerInstance.BeginListening();
 

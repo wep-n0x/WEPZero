@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Log\Log.cs" />
+    <Compile Include="Packets\InPacket.cs" />
+    <Compile Include="Packets\OutPacket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TcpServer\Client.cs" />
     <Compile Include="TcpServer\Listener.cs" />

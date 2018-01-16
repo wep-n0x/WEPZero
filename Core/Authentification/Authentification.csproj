@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Client\WRClient.cs" />
     <Compile Include="Globals\Globals.cs" />
+    <Compile Include="Networking\PacketHandler.cs" />
     <Compile Include="Networking\WRServer.cs" />
     <Compile Include="RunTime.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
