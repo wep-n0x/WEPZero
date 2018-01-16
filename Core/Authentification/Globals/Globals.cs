@@ -9,7 +9,7 @@ namespace Authentification
     public class Globals
     {
         public Networking.WRServer ServerInstance = null;
-
+        public Core.IO.ConfigReader Config = null;
 
         private static Globals m_pGlobals = null;
         public static Globals GetInstance() {

@@ -8,20 +8,24 @@ namespace Core
 {
     public class Log
     {
+        private static object lockObj = "";
+
         private static void WriteLine(ConsoleColor _c, string _prefix, string _text) {
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Write("[");
-            Console.ForegroundColor = _c;
-            Console.Write(DateTime.Now.ToShortTimeString());
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Write("] [");
-            Console.ForegroundColor = _c;
-            Console.Write(_prefix);
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Write("] :: ");
-            Console.ForegroundColor = _c;
-            Console.WriteLine(_text);
-            Console.ForegroundColor = ConsoleColor.White; 
+            lock (lockObj) {
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write("[");
+                Console.ForegroundColor = _c;
+                Console.Write(DateTime.Now.ToShortTimeString());
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write("] [");
+                Console.ForegroundColor = _c;
+                Console.Write(_prefix);
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write("] :: ");
+                Console.ForegroundColor = _c;
+                Console.WriteLine(_text);
+                Console.ForegroundColor = ConsoleColor.White;
+            }
         }
 
         public static void WritePlain(string _prefix, string _text)
@@ -41,7 +45,7 @@ namespace Core
 
         public static void WriteDebug(string _text)
         {
-            WriteLine(ConsoleColor.Magenta, "NETWORK", _text);
+            WriteLine(ConsoleColor.Magenta, "DEBUG", _text);
         }
     }
 }

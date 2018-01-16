@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuildConfig.cs" />
+    <Compile Include="IO\ConfigReader.cs" />
     <Compile Include="Log\Log.cs" />
     <Compile Include="Packets\InPacket.cs" />
     <Compile Include="Packets\OutPacket.cs" />

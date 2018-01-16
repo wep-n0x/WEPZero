@@ -8,8 +8,8 @@
 
     public class PacketHandler
     {
-        private Core.InPacket packet;
-        private WRClient client;
+        public Core.InPacket packet;
+        public WRClient client;
 
         public void Set(WRClient _wc, byte[] _input)
         {

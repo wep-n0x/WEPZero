@@ -13,6 +13,7 @@
         private List<string> _blocks;
 
         public void Set(byte[] _input) {
+            this._blocks = new List<string>();
             string strInput = ASCIIEncoding.GetEncoding("Windows-1250").GetString(_input);
             string[] strBlocks = strInput.Split(' ');
 

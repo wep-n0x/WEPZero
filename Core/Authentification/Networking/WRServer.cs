@@ -14,7 +14,8 @@
 
         public void LoadPacketTable()
         {
-
+            _packetTable = new Dictionary<ushort, PacketHandler>();
+            AddPacket(4112, new Handlers.CP_GET_CLIENT_VER());
         }
 
         private void AddPacket(ushort _opc, PacketHandler _handler)
@@ -37,6 +38,7 @@
 
         #region SessionManagement
         private Dictionary<ushort, WRClient> _tempSessions;
+        public int overallSessions = 0;
 
         public WRClient GetClient(ushort SessionIdx)
         {
@@ -46,8 +48,19 @@
                 return (WRClient)null;
         }
 
+        public void RemoveClient(WRClient client)
+        {
+            if (client.SessionIdx == 0)
+                return;
+
+            if(_tempSessions.ContainsKey(client.SessionIdx)) {
+                _tempSessions.Remove(client.SessionIdx);
+                Core.Log.WriteNetwork("Removed session [" + client.SessionIdx + "]");
+            }
+        }
+
         private ushort GetFreeID() {
-            for(ushort I = 0; I < ushort.MaxValue; I++) {
+            for(ushort I = 1; I < ushort.MaxValue; I++) {
                 if (_tempSessions.ContainsKey(I) == false)
                     return I;
             }
@@ -57,12 +70,14 @@
 
         public WRServer(string _ip, ushort _port)
             : base(System.Net.IPAddress.Parse(_ip), _port)
-        { }
+        { _tempSessions = new Dictionary<ushort, WRClient>(); }
 
         #region Networking
         public override void HandleConnection(Socket _tcpSocket) {
             try {
                 WRClient _wc = new WRClient(_tcpSocket);
+
+                overallSessions++;
 
                 ushort _tempSessionID = GetFreeID();
                 this._tempSessions.Add(_tempSessionID, _wc);

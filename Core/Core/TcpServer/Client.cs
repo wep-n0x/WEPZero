@@ -8,7 +8,7 @@
 
     public class Client
     {
-        private Socket ClientSocket;
+        public Socket ClientSocket;
 
         public Client(Socket _ClientSocket) {
             this.ClientSocket = _ClientSocket;
@@ -23,7 +23,7 @@
             try { this.ClientSocket.Close(); }
             catch { }
 
-            //=> (TADO): Remove session // code session manager
+            this.OnDisconnect(); 
         }
 
         private void Initialize() {
@@ -62,6 +62,7 @@
             this.Disconnect();
         }
 
+        public virtual void OnDisconnect() { }
         public virtual void OnReceiveData(byte[] _buffer) { }
     }
 }
