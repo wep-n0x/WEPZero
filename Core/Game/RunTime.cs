@@ -1,0 +1,65 @@
+﻿namespace Game
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading;
+
+
+    class RunTime
+    {
+        private static void load_db()
+        {
+            Core.Log.WritePlain("MySQL", "Connecting to database... (" + Globals.GetInstance().Config.GetValue("SQL_HOSTNAME") + ":3306)");
+            Globals.GetInstance().AuthDatabase = new Core.DB.Instance();
+            Globals.GetInstance().AuthDatabase.SetCredentials(Globals.GetInstance().Config.GetValue("SQL_HOSTNAME"), Globals.GetInstance().Config.GetValue("SQL_USERNAME"), Globals.GetInstance().Config.GetValue("SQL_PASSWORD"), Globals.GetInstance().Config.GetValue("SQL_DATABASE"));
+
+            if (!Globals.GetInstance().AuthDatabase.TestConnection())
+            {
+                Core.Log.WriteError("Couldn't connect to database!");
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
+
+            Core.Log.WritePlain("MySQL", "Done!");
+            Console.WriteLine();
+
+            MySql.Data.MySqlClient.MySqlConnection mConnection = Globals.GetInstance().AuthDatabase.CreateConnection();
+            MySql.Data.MySqlClient.MySqlCommand mCommand = new MySql.Data.MySqlClient.MySqlCommand("UPDATE accounts SET online=0 WHERE 1;", mConnection);
+            mCommand.ExecuteNonQuery();
+            mConnection.Close(); 
+        }
+
+        static void Main(string[] args)
+        {
+            Threads.AFThread.StartTime = DateTime.Now;
+            Console.Title = "Warrock emulation project - game server";
+            Console.WriteLine(Core.BuildConfig.Rev + " [game-server]");
+            Console.WriteLine("Hit <Ctrl+C> to exit");
+            Console.WriteLine();
+
+            Globals.GetInstance().Config = new Core.IO.ConfigReader();
+            Core.Log.WritePlain("CONFIG", "Reading config file... (" + Core.BuildConfig.Game_ConfigFile + ")");
+            Globals.GetInstance().Config.ReadFile(Core.BuildConfig.Game_ConfigFile);
+            Core.Log.WritePlain("CONFIG", "Done!");
+            Console.WriteLine();
+
+            load_db();
+
+            /* Creating Listener Instance */
+            Globals.GetInstance().ServerInstance = new Networking.WRServer(Globals.GetInstance().Config.GetValue("IP"), Convert.ToUInt16(Globals.GetInstance().Config.GetValue("Port")));
+            Globals.GetInstance().ServerInstance.LoadPacketTable();
+            Globals.GetInstance().ServerInstance.Initialize();
+            Globals.GetInstance().ServerInstance.BeginListening();
+            Console.WriteLine();
+
+            Core.Log.WritePlain("CORE", "Emulator started in " + ((TimeSpan)(DateTime.Now - Threads.AFThread.StartTime)).TotalMilliseconds + "ms");
+            Console.WriteLine();
+
+            /* Prevent application from closing */
+            Thread AntiFreezeThread = new Thread(new ThreadStart(Threads.AFThread.MainThread));
+            AntiFreezeThread.Start();
+        }
+    }
+}

@@ -8,8 +8,8 @@ namespace Core
 {
     public class BuildConfig
     {
-        public static string Rev = "0.0.1";
-        public static string LastUpdate = "16.01.2018";
+        public static string Rev = "0.4.1";
+        public static string LastUpdate = "17.01.2018";
 
         public static string Auth_ConfigFile = "auth.ini";
         public static string Game_ConfigFile = "game.ini";

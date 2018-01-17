@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Authentification")]
-[assembly: AssemblyDescription("Warrock auth server")]
+[assembly: AssemblyTitle("GameFramework")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Warrock emulation project")]
-[assembly: AssemblyProduct("Authentification")]
-[assembly: AssemblyCopyright("Copyright ©  WEP 2018")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("GameFramework")]
+[assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("31e04cdf-74e1-4de5-9f94-ac838eaf54ef")]
+[assembly: Guid("54c38bcf-d093-4347-86db-33f640af43f0")]
 
 // Version information for an assembly consists of the following four values:
 //
