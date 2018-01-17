@@ -62,6 +62,12 @@
             Core.Log.WritePlain("CORE", "Emulator started in " + ((TimeSpan)(DateTime.Now - Threads.AFThread.StartTime)).TotalMilliseconds + "ms");
             Console.WriteLine();
 
+            /* Create room update thread */
+            Thread RoomUpdateThread = new Thread(new ThreadStart(Threads.RUThread.MainThread));
+            RoomUpdateThread.SetApartmentState(ApartmentState.STA);
+            RoomUpdateThread.Priority = ThreadPriority.AboveNormal;
+            RoomUpdateThread.Start();
+
             /* Prevent application from closing */
             Thread AntiFreezeThread = new Thread(new ThreadStart(Threads.AFThread.MainThread));
             AntiFreezeThread.Start();

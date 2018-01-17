@@ -16,7 +16,9 @@ namespace GameFramework.Client
         public int WeaponID = 0;
         public Classes Class = Classes.Engineer;
         public Team TeamID = Team.None;
-        
+
+        public Channels ChannelID = Channels.None;
+
         public void Reset()
         {
             Health = 1000;

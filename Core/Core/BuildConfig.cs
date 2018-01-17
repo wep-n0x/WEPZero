@@ -19,5 +19,7 @@ namespace Core
 
         public static byte GameKey_Client = 0xC3;
         public static byte GameKey_Server = 0x96;
+
+        public static string ChannelEnabled = "O,C,C"; // O=Open / C=Closed
     }
 }

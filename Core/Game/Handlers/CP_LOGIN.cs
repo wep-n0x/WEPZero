@@ -67,12 +67,12 @@ namespace Game.Handlers
             mPacket.AddBlock(0); // Unknown
             mPacket.AddBlock(0); // Unknown 
             mPacket.AddBlock("F,F,F,F"); // Slots opened
-            mPacket.AddBlock("^,^,^,^,^,^,^,^");
-            mPacket.AddBlock("^,^,^,^,^,^,^,^");
-            mPacket.AddBlock("^,^,^,^,^,^,^,^");
-            mPacket.AddBlock("^,^,^,^,^,^,^,^");
-            mPacket.AddBlock("^,^,^,^,^,^,^,^");
-            mPacket.AddBlock("^,^,^,^,^,^,^,^,^,^,^,^,^,^,^,^,^,^,^,^,^,^,^,^,^,^,^,^,^,^,^,^");
+            mPacket.AddBlock(string.Join(",", wc.Inventory.Engineer));
+            mPacket.AddBlock(string.Join(",", wc.Inventory.Medic));
+            mPacket.AddBlock(string.Join(",", wc.Inventory.Sniper));
+            mPacket.AddBlock(string.Join(",", wc.Inventory.Assault));
+            mPacket.AddBlock(string.Join(",", wc.Inventory.Heavy));
+            mPacket.AddBlock(wc.Inventory.BuildItemList());
             mPacket.AddBlock(0); // Unknown
             mPacket.AddBlock(0); // Unknown 
             byte[] mBuffer = mPacket.GetOutput();
@@ -104,6 +104,10 @@ namespace Game.Handlers
                         this.client.Account.Deaths = mReader.GetInt32(7);
                         this.client.Account.Premium = mReader.GetInt32(8);
                         this.client.Account.PremiumExpire = mReader.GetInt32(9);
+
+                        this.client.Inventory = new GameFramework.Client.WRInventory();
+                        this.client.LoadInventory();
+
                         MakeCharacterInfo(this.client);
                     }
                 } else {

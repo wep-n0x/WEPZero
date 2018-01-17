@@ -18,6 +18,7 @@
             AddPacket(24832, new Handlers.CP_GET_SERVER_TIME());
             AddPacket(25088, new Handlers.CP_LOGIN());
             AddPacket(24576, new Handlers.CP_EXIT());
+            AddPacket(28673, new Handlers.CP_CHANGE_CHANNEL());
         }
 
         private void AddPacket(ushort _opc, PacketHandler _handler)

@@ -50,6 +50,7 @@
     <Compile Include="Client\WRAccount.cs" />
     <Compile Include="Client\WRClient.cs" />
     <Compile Include="Globals\Globals.cs" />
+    <Compile Include="Handlers\CP_CHANGE_CHANNEL.cs" />
     <Compile Include="Handlers\CP_EXIT.cs" />
     <Compile Include="Handlers\CP_GET_SERVER_TIME.cs" />
     <Compile Include="Handlers\CP_LOGIN.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="RunTime.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Threads\AFThread.cs" />
+    <Compile Include="Threads\RUThread.cs" />
     <Compile Include="UDP\UDPServer.cs" />
   </ItemGroup>
   <ItemGroup>

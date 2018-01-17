@@ -1,20 +1,17 @@
-﻿using System;
-using System.Net.Sockets;
-using System.Threading;
-using System.Net;
-using System.Text;
-using System.Collections;
-namespace Game
-{
-    public class UdpServer
-    { 
+﻿namespace Game{
+    using System;
+    using System.Net.Sockets;
+    using System.Threading;
+    using System.Net;
+    using System.Collections;
+
+    public class UdpServer { 
         IPEndPoint GroupEP5350;
         IPEndPoint GroupEP5351;
 
         public Hashtable usersUDP = new Hashtable(255, 1);
 
-        public void StartUDPServer()
-        {
+        public void StartUDPServer() {
             Thread RecvThread1 = new Thread(new ThreadStart(RecvUDP1));
             RecvThread1.Start();
             Thread RecvThread2 = new Thread(new ThreadStart(RecvUDP2));
@@ -78,8 +75,7 @@ namespace Game
 
                         //need to check it later
                         WRClient c = Globals.GetInstance().ServerInstance.GetClient((ushort)id);
-                        if (c is WRClient)
-                        {
+                        if (c is WRClient) {
                             usersUDP[id] = IPeo;
                             c.RemoteIP = IPeo.Address.Address;
                             c.RemotePort = (int)BitConverter.ToUInt16(new byte[] { BitConverter.GetBytes(IPeo.Port)[1], BitConverter.GetBytes(IPeo.Port)[0] },0);
@@ -119,8 +115,7 @@ namespace Game
 
                         int id = (int)((RecvPacket[4]) << 8) | (RecvPacket[5]);
                         WRClient c = Globals.GetInstance().ServerInstance.GetClient((ushort)id);
-                        if (c is WRClient)
-                        {
+                        if (c is WRClient) {
                             usersUDP[id] = IPeo;
                             c.RemoteIP = IPeo.Address.Address;
                             c.RemotePort = (int)BitConverter.ToUInt16(new byte[] { BitConverter.GetBytes(IPeo.Port)[1], BitConverter.GetBytes(IPeo.Port)[0] }, 0);
@@ -134,9 +129,7 @@ namespace Game
                     }
                 }
                 return Response;
-            }
-            catch (Exception ex)
-            { 
+            } catch { 
                 return new Byte[1] { 0x00 };
             }
         }
