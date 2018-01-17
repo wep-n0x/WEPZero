@@ -13,6 +13,11 @@
         public ushort SessionIdx = 0;
         public Client.WRAccount Account = new Client.WRAccount();
 
+        public long RemoteIP = 0;
+        public int RemotePort = 0;
+        public long LocalIP = 0;
+        public int LocalPort = 0;
+
         public WRClient(System.Net.Sockets.Socket clientSocket)
             : base(clientSocket)
         { }
@@ -23,6 +28,7 @@
         public override void OnDisconnect()
         {
             Globals.GetInstance().ServerInstance.RemoveClient(this);
+            Globals.GetInstance().UdpInstance.usersUDP[this.SessionIdx] = null;
         }
 
         public override void OnReceiveData(byte[] _buffer)

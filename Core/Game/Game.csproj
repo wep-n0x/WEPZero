@@ -50,7 +50,9 @@
     <Compile Include="Client\WRAccount.cs" />
     <Compile Include="Client\WRClient.cs" />
     <Compile Include="Globals\Globals.cs" />
+    <Compile Include="Handlers\CP_EXIT.cs" />
     <Compile Include="Handlers\CP_GET_SERVER_TIME.cs" />
+    <Compile Include="Handlers\CP_LOGIN.cs" />
     <Compile Include="Networking\PacketHandler.cs" />
     <Compile Include="Networking\WRServer.cs" />
     <Compile Include="RunTime.cs" />

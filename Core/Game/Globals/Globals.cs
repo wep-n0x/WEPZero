@@ -10,7 +10,9 @@ namespace Game
     {
         public Networking.WRServer ServerInstance = null;
         public Core.IO.ConfigReader Config = null;
-        public Core.DB.Instance AuthDatabase = null; 
+        public Core.DB.Instance GameDatabase = null;
+
+        public UdpServer UdpInstance = null; 
 
         private static Globals m_pGlobals = null;
         public static Globals GetInstance()

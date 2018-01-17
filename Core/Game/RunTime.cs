@@ -12,10 +12,10 @@
         private static void load_db()
         {
             Core.Log.WritePlain("MySQL", "Connecting to database... (" + Globals.GetInstance().Config.GetValue("SQL_HOSTNAME") + ":3306)");
-            Globals.GetInstance().AuthDatabase = new Core.DB.Instance();
-            Globals.GetInstance().AuthDatabase.SetCredentials(Globals.GetInstance().Config.GetValue("SQL_HOSTNAME"), Globals.GetInstance().Config.GetValue("SQL_USERNAME"), Globals.GetInstance().Config.GetValue("SQL_PASSWORD"), Globals.GetInstance().Config.GetValue("SQL_DATABASE"));
+            Globals.GetInstance().GameDatabase = new Core.DB.Instance();
+            Globals.GetInstance().GameDatabase.SetCredentials(Globals.GetInstance().Config.GetValue("SQL_HOSTNAME"), Globals.GetInstance().Config.GetValue("SQL_USERNAME"), Globals.GetInstance().Config.GetValue("SQL_PASSWORD"), Globals.GetInstance().Config.GetValue("SQL_DATABASE"));
 
-            if (!Globals.GetInstance().AuthDatabase.TestConnection())
+            if (!Globals.GetInstance().GameDatabase.TestConnection())
             {
                 Core.Log.WriteError("Couldn't connect to database!");
                 Console.ReadKey();
@@ -25,7 +25,7 @@
             Core.Log.WritePlain("MySQL", "Done!");
             Console.WriteLine();
 
-            MySql.Data.MySqlClient.MySqlConnection mConnection = Globals.GetInstance().AuthDatabase.CreateConnection();
+            MySql.Data.MySqlClient.MySqlConnection mConnection = Globals.GetInstance().GameDatabase.CreateConnection();
             MySql.Data.MySqlClient.MySqlCommand mCommand = new MySql.Data.MySqlClient.MySqlCommand("UPDATE accounts SET online=0 WHERE 1;", mConnection);
             mCommand.ExecuteNonQuery();
             mConnection.Close(); 
@@ -46,6 +46,11 @@
             Console.WriteLine();
 
             load_db();
+             
+            Core.Log.WritePlain("UDP", "Starting udp sockets...");
+            Globals.GetInstance().UdpInstance = new UdpServer();
+            Globals.GetInstance().UdpInstance.StartUDPServer();
+            Console.WriteLine(); 
 
             /* Creating Listener Instance */
             Globals.GetInstance().ServerInstance = new Networking.WRServer(Globals.GetInstance().Config.GetValue("IP"), Convert.ToUInt16(Globals.GetInstance().Config.GetValue("Port")));

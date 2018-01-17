@@ -16,6 +16,8 @@
         {
             _packetTable = new Dictionary<ushort, PacketHandler>();
             AddPacket(24832, new Handlers.CP_GET_SERVER_TIME());
+            AddPacket(25088, new Handlers.CP_LOGIN());
+            AddPacket(24576, new Handlers.CP_EXIT());
         }
 
         private void AddPacket(ushort _opc, PacketHandler _handler)

@@ -39,25 +39,26 @@
         private void RecvDataThread() {
             int mLength = 0;
             byte[] mBuffer = new byte[8192];
+            try { 
+                while(this.ClientSocket.Connected) {
+                    mLength = this.ClientSocket.Receive(mBuffer);
+                    if (mLength > 0) {
+                        byte[] _packetBuffer = new byte[mLength];
+                        Array.Copy(mBuffer, _packetBuffer, mLength);
 
-            while(this.ClientSocket.Connected) {
-                mLength = this.ClientSocket.Receive(mBuffer);
-                if (mLength > 0) {
-                    byte[] _packetBuffer = new byte[mLength];
-                    Array.Copy(mBuffer, _packetBuffer, mLength);
-
-                    try {
-                        string[] sPackets = ASCIIEncoding.GetEncoding("Windows-1250").GetString(_packetBuffer).Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
-                        foreach (string mPacket in sPackets) {
-                            if (mPacket.Length > 10){
-                                byte[] mPacketBuffer = ASCIIEncoding.GetEncoding("Windows-1250").GetBytes(mPacket);
-                                this.OnReceiveData(mPacketBuffer);
+                        try {
+                            string[] sPackets = ASCIIEncoding.GetEncoding("Windows-1250").GetString(_packetBuffer).Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                            foreach (string mPacket in sPackets) {
+                                if (mPacket.Length > 10){
+                                    byte[] mPacketBuffer = ASCIIEncoding.GetEncoding("Windows-1250").GetBytes(mPacket);
+                                    this.OnReceiveData(mPacketBuffer);
+                                }
                             }
-                        }
-                    } catch { }
-                } else
-                    this.Disconnect();
-            }
+                        } catch { }
+                    } else
+                        this.Disconnect();
+                }
+            } catch { this.Disconnect(); }
 
             this.Disconnect();
         }
