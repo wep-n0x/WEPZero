@@ -14,7 +14,13 @@
         public Client.WRAccount Account = new Client.WRAccount();
         public GameFramework.Client.WRInventory Inventory = new GameFramework.Client.WRInventory();
         public GameFramework.Client.WRPlayer Player = new GameFramework.Client.WRPlayer();
+        
+        public long RemoteIP = 0;
+        public int RemotePort = 0;
+        public long LocalIP = 0;
+        public int LocalPort = 0;
 
+        #region SQL Functions
         public void LoadInventory()
         {
             try {
@@ -52,19 +58,13 @@
                 mConnection.Close();
             } catch { }
         }
-
-        public long RemoteIP = 0;
-        public int RemotePort = 0;
-        public long LocalIP = 0;
-        public int LocalPort = 0;
+        #endregion
 
         public WRClient(System.Net.Sockets.Socket clientSocket)
             : base(clientSocket)
         { }
 
-        #region Packets 
-        #endregion
-
+        #region Networking
         public override void OnDisconnect()
         {
             Globals.GetInstance().ServerInstance.RemoveClient(this);
@@ -97,5 +97,6 @@
             }
             catch { }
         }
+        #endregion
     }
 }
