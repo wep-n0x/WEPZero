@@ -14,7 +14,9 @@ namespace Game
 
         public UdpServer UdpInstance = null;
 
-        public ItemShop ShopInstance = null; 
+        public ItemShop ShopInstance = null;
+
+        public GameFramework.Tools.LevelManager LevelManager = new GameFramework.Tools.LevelManager(); 
 
         private static Globals m_pGlobals = null;
         public static Globals GetInstance()

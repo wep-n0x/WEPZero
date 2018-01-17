@@ -54,7 +54,7 @@ namespace Game.Handlers
             mPacket.AddBlock(wc.Account.Premium);
             mPacket.AddBlock(0); // Unknown
             mPacket.AddBlock(0); // Unknown
-            mPacket.AddBlock(0); // Level
+            mPacket.AddBlock(Globals.GetInstance().LevelManager.GetLevelForExp(wc.Account.Exp)); // Level
             mPacket.AddBlock(wc.Account.Exp); 
             mPacket.AddBlock(0); // Unknown
             mPacket.AddBlock(0); // Unknown
@@ -66,7 +66,7 @@ namespace Game.Handlers
             mPacket.AddBlock(0); // Unknown
             mPacket.AddBlock(0); // Unknown
             mPacket.AddBlock(0); // Unknown 
-            mPacket.AddBlock("F,F,F,F"); // Slots opened
+            mPacket.AddBlock(wc.GetOpenSlots()); // Slots opened
             mPacket.AddBlock(string.Join(",", wc.Inventory.Engineer));
             mPacket.AddBlock(string.Join(",", wc.Inventory.Medic));
             mPacket.AddBlock(string.Join(",", wc.Inventory.Sniper));
@@ -85,9 +85,6 @@ namespace Game.Handlers
         {
             try {
                 int userId = this.packet.GetInt(0);
-                string username = this.packet.GetString(2);
-                string displayname = this.packet.GetString(3);
-                int sessionId = this.packet.GetInt(4); // Login session Id
 
                 MySql.Data.MySqlClient.MySqlConnection mConnection = Globals.GetInstance().GameDatabase.CreateConnection();
                 MySql.Data.MySqlClient.MySqlCommand mCommannd = new MySql.Data.MySqlClient.MySqlCommand("SELECT id, username, nickname, accesslevel, exp, dinar, kills, deaths, premium, premiumexpire FROM accounts WHERE id='" + userId + "'", mConnection);
@@ -108,7 +105,21 @@ namespace Game.Handlers
                         this.client.Inventory = new GameFramework.Client.WRInventory();
                         this.client.LoadInventory();
 
+                        /* Check for expired items */
+                        foreach(GameFramework.Elements.EItem mItem in this.client.Inventory.itemTable.ToArray()) {
+                            DateTime itemTime = DateTime.ParseExact(mItem.ExpireDate, "yyMMddHH", null);
+                            TimeSpan itemSpan = (TimeSpan)(itemTime - DateTime.Now);
+                            if(itemSpan.TotalMilliseconds <= 0) { // Item is expired
+                                this.client.Inventory.itemTable.Remove(mItem);
+                                this.client.SaveInventory();
+                            }
+                        }
+
                         MakeCharacterInfo(this.client);
+
+                        this.client.SendSystemMessage("MOTD: " + Globals.GetInstance().Config.GetValue("MOTD"));
+                        this.client.SendSystemMessage("Welcome to WEP v" + Core.BuildConfig.Rev + "!");
+                        this.client.SendSystemMessage("This emulator is still in development.");
                     }
                 } else {
                     MakeLoginError(this.client, ErrorCodes.NormalProcedure);

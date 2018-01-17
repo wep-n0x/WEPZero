@@ -39,19 +39,26 @@
             Console.WriteLine("Hit <Ctrl+C> to exit");
             Console.WriteLine();
 
+            //Read config file
             Globals.GetInstance().Config = new Core.IO.ConfigReader();
             Core.Log.WritePlain("CONFIG", "Reading config file... (" + Core.BuildConfig.Game_ConfigFile + ")");
             Globals.GetInstance().Config.ReadFile(Core.BuildConfig.Game_ConfigFile);
             Core.Log.WritePlain("CONFIG", "Done!");
             Console.WriteLine();
 
+            //Do database stuff
             load_db();
 
+            //Loading exp file into memory
+            Globals.GetInstance().LevelManager.LoadLevelFile();
+
+            //Loading all itemshop items
             Core.Log.WritePlain("ITEMSHOP", "Reading items file... (data/items.txt)");
             Globals.GetInstance().ShopInstance = new ItemShop();
             Globals.GetInstance().ShopInstance.ReadItemsFile();
             Console.WriteLine();
              
+            //Starting udp sockets
             Core.Log.WritePlain("UDP", "Starting udp sockets...");
             Globals.GetInstance().UdpInstance = new UdpServer();
             Globals.GetInstance().UdpInstance.StartUDPServer();

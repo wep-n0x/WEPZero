@@ -20,6 +20,34 @@
         public long LocalIP = 0;
         public int LocalPort = 0;
 
+        public void SendSystemMessage(string Message)
+        {
+            Handlers.CP_CHAT.MakeChatPacket(this, 0, "SYSTEM", Handlers.CP_CHAT.ChatType.Room_ToAll, 999, "NULL", "SYSTEM   >> " + Message);
+        }
+
+        public string GetOpenSlots()
+        { 
+            StringBuilder sb = new StringBuilder();
+            if (this.Inventory.HasItem("CA01") || this.Account.Premium >= 3)
+                sb.Append("T,");
+            else
+                sb.Append("F,");
+
+            if ((this.Inventory.HasItem("DS05") || this.Inventory.HasItem("DV01")) || this.Inventory.HasItem("DS01") || this.Inventory.HasItem("DU01") || this.Inventory.HasItem("DU02") || this.Inventory.HasItem("DS03"))
+                sb.Append("T,");
+            else
+                sb.Append("F,");
+
+            if (this.Inventory.HasItem("CA03"))
+                sb.Append("T,");
+            else
+                sb.Append("F,");
+
+            sb.Append("F"); //(TADO): Add Retail system
+            return sb.ToString();
+
+        }
+
         #region SQL Functions
 
         public void SaveInventory()

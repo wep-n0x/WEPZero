@@ -45,7 +45,7 @@ namespace Game.Handlers
             mPacket.AddBlock(wc.Inventory.itemTable.Count);
             mPacket.AddBlock(wc.Inventory.BuildItemList());
             mPacket.AddBlock(wc.Account.Dinar);
-            mPacket.AddBlock("F,F,F,F"); 
+            mPacket.AddBlock(wc.GetOpenSlots()); 
             byte[] mBuffer = mPacket.GetOutput();
             for (int I = 0; I < mBuffer.Length; I++)
                 mBuffer[I] ^= Core.BuildConfig.GameKey_Server;

@@ -32,6 +32,7 @@ namespace GameFramework.Client
             return sb.Remove(sb.Length - 1, 1).ToString(); 
         }
 
+
         public bool HasItem(string _code)
         {
             foreach (Elements.EItem mItem in itemTable.ToArray())

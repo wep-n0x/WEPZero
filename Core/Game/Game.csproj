@@ -52,6 +52,7 @@
     <Compile Include="Globals\Globals.cs" />
     <Compile Include="Handlers\CP_BUY_ITEM.cs" />
     <Compile Include="Handlers\CP_CHANGE_CHANNEL.cs" />
+    <Compile Include="Handlers\CP_CHAT.cs" />
     <Compile Include="Handlers\CP_EQUIPMENT.cs" />
     <Compile Include="Handlers\CP_EXIT.cs" />
     <Compile Include="Handlers\CP_GET_SERVER_TIME.cs" />
