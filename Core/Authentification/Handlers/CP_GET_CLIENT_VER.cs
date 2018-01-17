@@ -20,7 +20,7 @@ namespace Authentification.Handlers
             mPacket.AddBlock(Globals.GetInstance().Config.GetValue("URL")); // Updater URL
             byte[] mBuffer = mPacket.GetOutput();
             for (byte I = 0; I < mBuffer.Length; I++)
-                mBuffer[I] ^= 0x96;
+                mBuffer[I] ^= Core.BuildConfig.AuthKey_Server;
             wc.ClientSocket.Send(mBuffer);
         }
 

@@ -11,7 +11,26 @@
     {
         private static void load_db()
         {
+            Core.Log.WritePlain("MySQL", "Connecting to database... (" + Globals.GetInstance().Config.GetValue("SQL_HOSTNAME") + ":3306)");
+            Globals.GetInstance().AuthDatabase = new Core.DB.Instance();
+            Globals.GetInstance().AuthDatabase.SetCredentials(Globals.GetInstance().Config.GetValue("SQL_HOSTNAME"), Globals.GetInstance().Config.GetValue("SQL_USERNAME"), Globals.GetInstance().Config.GetValue("SQL_PASSWORD"), Globals.GetInstance().Config.GetValue("SQL_DATABASE"));
 
+            if(!Globals.GetInstance().AuthDatabase.TestConnection()) {
+                Core.Log.WriteError("Couldn't connect to database!");
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
+
+            Core.Log.WritePlain("MySQL", "Done!");
+            Console.WriteLine();
+
+            MySql.Data.MySqlClient.MySqlConnection mConnection = Globals.GetInstance().AuthDatabase.CreateConnection();
+            MySql.Data.MySqlClient.MySqlCommand mCommand = new MySql.Data.MySqlClient.MySqlCommand("UPDATE accounts SET online=0 WHERE 1;", mConnection);
+            mCommand.ExecuteNonQuery();
+            mConnection.Close();
+
+            Globals.GetInstance().ServerListHandler = new ServerList();
+            Globals.GetInstance().ServerListHandler.LoadServerList();
         }
 
         static void Main(string[] args)
@@ -23,8 +42,8 @@
             Console.WriteLine();
 
             Globals.GetInstance().Config = new Core.IO.ConfigReader();
-            Core.Log.WritePlain("CONFIG", "Reading config file... (auth.ini)");
-            Globals.GetInstance().Config.ReadFile("auth.ini");
+            Core.Log.WritePlain("CONFIG", "Reading config file... ("+Core.BuildConfig.Auth_ConfigFile+")");
+            Globals.GetInstance().Config.ReadFile(Core.BuildConfig.Auth_ConfigFile);
             Core.Log.WritePlain("CONFIG", "Done!");
             Console.WriteLine();
              
@@ -36,7 +55,8 @@
             Globals.GetInstance().ServerInstance.Initialize();
             Globals.GetInstance().ServerInstance.BeginListening();
             Console.WriteLine();
-            Core.Log.WritePlain("WEP", "WEP started in " + ((TimeSpan)(DateTime.Now - Threads.AFThread.StartTime)).TotalMilliseconds + "ms");
+
+            Core.Log.WritePlain("CORE", "Emulator started in " + ((TimeSpan)(DateTime.Now - Threads.AFThread.StartTime)).TotalMilliseconds + "ms");
             Console.WriteLine();
 
             /* Prevent application from closing */

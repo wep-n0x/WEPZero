@@ -11,6 +11,7 @@
     public class WRClient : Core.TcpServer.Client
     {
         public ushort SessionIdx = 0;
+        public Client.WRAccount Account = new Client.WRAccount();
 
         public WRClient(System.Net.Sockets.Socket clientSocket)
             : base(clientSocket)
@@ -24,7 +25,7 @@
             mPacket.AddBlock(0);
             byte[] mBuffer = mPacket.GetOutput();
             for (byte I = 0; I < mBuffer.Length; I++)
-                mBuffer[I] ^= 0x96;
+                mBuffer[I] ^= Core.BuildConfig.AuthKey_Server;
             this.ClientSocket.Send(mBuffer);
         }
         #endregion
@@ -37,7 +38,7 @@
             try {
                 List<byte> mBuffer = new List<byte>();
                 for (int I = 0; I < _buffer.Length; I++)
-                    mBuffer.Add((byte)(_buffer[I] ^ 0xC3));
+                    mBuffer.Add((byte)(_buffer[I] ^ Core.BuildConfig.AuthKey_Client));
 
                 InPacket _packet = new InPacket();
                 _packet.Set(mBuffer.ToArray());
