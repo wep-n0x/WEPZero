@@ -21,6 +21,36 @@
         public int LocalPort = 0;
 
         #region SQL Functions
+
+        public void SaveInventory()
+        {
+            MySql.Data.MySqlClient.MySqlConnection mConnection = Globals.GetInstance().GameDatabase.CreateConnection();
+            MySql.Data.MySqlClient.MySqlCommand mCommand = new MySql.Data.MySqlClient.MySqlCommand("DELETE FROM inventory WHERE owner='" + this.Account.Idx + "'", mConnection);
+            mCommand.ExecuteNonQuery();
+
+            foreach(GameFramework.Elements.EItem mItem in this.Inventory.itemTable.ToArray())
+            {
+                mCommand = new MySql.Data.MySqlClient.MySqlCommand("INSERT INTO inventory(owner,code,expiredate) VALUES ('"+this.Account.Idx+"','"+mItem.Code+"','"+mItem.ExpireDate+"')", mConnection);
+                mCommand.ExecuteNonQuery();
+            }
+
+            mCommand = new MySql.Data.MySqlClient.MySqlCommand("UPDATE equipment SET class1='" + string.Join(",", this.Inventory.Engineer) + "' WHERE owner='" + this.Account.Idx + "'", mConnection);
+            mCommand.ExecuteNonQuery();
+
+            mCommand = new MySql.Data.MySqlClient.MySqlCommand("UPDATE equipment SET class2='" + string.Join(",", this.Inventory.Medic) + "' WHERE owner='" + this.Account.Idx + "'", mConnection);
+            mCommand.ExecuteNonQuery();
+
+            mCommand = new MySql.Data.MySqlClient.MySqlCommand("UPDATE equipment SET class3='" + string.Join(",", this.Inventory.Sniper) + "' WHERE owner='" + this.Account.Idx + "'", mConnection);
+            mCommand.ExecuteNonQuery();
+
+            mCommand = new MySql.Data.MySqlClient.MySqlCommand("UPDATE equipment SET class4='" + string.Join(",", this.Inventory.Assault) + "' WHERE owner='" + this.Account.Idx + "'", mConnection);
+            mCommand.ExecuteNonQuery();
+
+            mCommand = new MySql.Data.MySqlClient.MySqlCommand("UPDATE equipment SET class5='" + string.Join(",", this.Inventory.Heavy) + "' WHERE owner='" + this.Account.Idx + "'", mConnection);
+            mCommand.ExecuteNonQuery();
+
+            mConnection.Close();
+        }
         public void LoadInventory()
         {
             try {

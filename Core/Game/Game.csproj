@@ -50,10 +50,13 @@
     <Compile Include="Client\WRAccount.cs" />
     <Compile Include="Client\WRClient.cs" />
     <Compile Include="Globals\Globals.cs" />
+    <Compile Include="Handlers\CP_BUY_ITEM.cs" />
     <Compile Include="Handlers\CP_CHANGE_CHANNEL.cs" />
+    <Compile Include="Handlers\CP_EQUIPMENT.cs" />
     <Compile Include="Handlers\CP_EXIT.cs" />
     <Compile Include="Handlers\CP_GET_SERVER_TIME.cs" />
     <Compile Include="Handlers\CP_LOGIN.cs" />
+    <Compile Include="ItemShop\ItemShop.cs" />
     <Compile Include="Networking\PacketHandler.cs" />
     <Compile Include="Networking\WRServer.cs" />
     <Compile Include="RunTime.cs" />
@@ -75,6 +78,7 @@
       <Name>GameFramework</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

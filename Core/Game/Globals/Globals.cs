@@ -12,7 +12,9 @@ namespace Game
         public Core.IO.ConfigReader Config = null;
         public Core.DB.Instance GameDatabase = null;
 
-        public UdpServer UdpInstance = null; 
+        public UdpServer UdpInstance = null;
+
+        public ItemShop ShopInstance = null; 
 
         private static Globals m_pGlobals = null;
         public static Globals GetInstance()

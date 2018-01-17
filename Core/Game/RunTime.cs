@@ -46,6 +46,11 @@
             Console.WriteLine();
 
             load_db();
+
+            Core.Log.WritePlain("ITEMSHOP", "Reading items file... (data/items.txt)");
+            Globals.GetInstance().ShopInstance = new ItemShop();
+            Globals.GetInstance().ShopInstance.ReadItemsFile();
+            Console.WriteLine();
              
             Core.Log.WritePlain("UDP", "Starting udp sockets...");
             Globals.GetInstance().UdpInstance = new UdpServer();
@@ -58,6 +63,7 @@
             Globals.GetInstance().ServerInstance.Initialize();
             Globals.GetInstance().ServerInstance.BeginListening();
             Console.WriteLine();
+             
 
             Core.Log.WritePlain("CORE", "Emulator started in " + ((TimeSpan)(DateTime.Now - Threads.AFThread.StartTime)).TotalMilliseconds + "ms");
             Console.WriteLine();

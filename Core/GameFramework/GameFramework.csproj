@@ -47,6 +47,7 @@
     <Compile Include="Client\WRInventory.cs" />
     <Compile Include="Client\WRPlayer.cs" />
     <Compile Include="Elements\EItem.cs" />
+    <Compile Include="Elements\EShopItem.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

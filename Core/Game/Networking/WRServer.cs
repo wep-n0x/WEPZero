@@ -19,6 +19,8 @@
             AddPacket(25088, new Handlers.CP_LOGIN());
             AddPacket(24576, new Handlers.CP_EXIT());
             AddPacket(28673, new Handlers.CP_CHANGE_CHANNEL());
+            AddPacket(30208, new Handlers.CP_BUY_ITEM());
+            AddPacket(29970, new Handlers.CP_EQUIPMENT());
         }
 
         private void AddPacket(ushort _opc, PacketHandler _handler)

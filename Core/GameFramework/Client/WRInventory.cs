@@ -31,5 +31,42 @@ namespace GameFramework.Client
 
             return sb.Remove(sb.Length - 1, 1).ToString(); 
         }
+
+        public bool HasItem(string _code)
+        {
+            foreach (Elements.EItem mItem in itemTable.ToArray())
+                if (mItem.Code.ToLower().Equals(_code.ToLower()))
+                    return true;
+            return false;
+        }
+
+        public void AddItem(int _Idx, string _Code, int _LeasePeriod)
+        {
+            if (_LeasePeriod == -1)
+                _LeasePeriod = 1333337; //Retail Weapon
+
+            if(!HasItem(_Code)) {
+                DateTime dt = DateTime.Now;
+                dt = dt.AddDays(_LeasePeriod).AddHours(-1);
+                string expireDate = String.Format("{0:yyMMddHH}", dt);
+
+                Elements.EItem mNewItem = new Elements.EItem();
+                mNewItem.Code = _Code;
+                mNewItem.ExpireDate = expireDate;
+
+                this.itemTable.Add(mNewItem); 
+            } else {
+                foreach (Elements.EItem mItem in this.itemTable.ToArray()) {
+                    if(mItem.Code.ToLower().Equals(_Code.ToLower())) { 
+                        DateTime itemTime = DateTime.ParseExact(mItem.ExpireDate, "yyMMddHH", null);
+                        itemTime = itemTime.AddDays(_LeasePeriod).AddHours(-1);
+
+                        string expireDate = String.Format("{0:yyMMddHH}", itemTime);
+                        mItem.ExpireDate = expireDate;
+                        break;
+                    }
+                }
+            }
+        }
     }
 }
